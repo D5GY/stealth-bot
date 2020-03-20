@@ -1,0 +1,30 @@
+import { Snowflake } from 'discord.js';
+
+const config = {
+	database: {
+		database: 'database name',
+		host: 'db host',
+		password: 'password',
+		user: 'username'
+	},
+	token: 'some token',
+	prefix: '>',
+	roles: {
+		staff: ['staff role or smth ids'] as Snowflake[],
+		auto: 'autorole ID' as Snowflake
+	},
+	channels: [{
+		name: 'channel name internally, doesn\'t have to be same as in discord',
+		id: 'webhook id' as Snowflake
+	}],
+	webhooks: [{
+		name: 'internal name for webhook',
+		id: 'webhook id' as Snowflake,
+		token: 'some token'
+	}],
+	devs: ['bot developer ids'] as Snowflake[]
+};
+
+export default config;
+
+export type Config = typeof config;

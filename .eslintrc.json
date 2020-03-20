@@ -4,7 +4,8 @@
         "node": true
     },
     "extends": [
-        "eslint:recommended",
+				"eslint:recommended",
+				"plugin:@typescript-eslint/recommended",
         "plugin:@typescript-eslint/eslint-recommended"
     ],
     "globals": {
@@ -13,12 +14,18 @@
     },
     "parser": "@typescript-eslint/parser",
     "parserOptions": {
-        "ecmaVersion": 2018
+				"ecmaVersion": 2018,
+				"sourceType": "module"
     },
     "plugins": [
         "@typescript-eslint"
     ],
     "rules": {
+			"@typescript-eslint/ban-ts-ignore": "off",
+			"@typescript-eslint/no-non-null-assertion": "off",
+			"@typescript-eslint/explicit-function-return-type": "off",
+			"no-trailing-spaces": "error",
+			"comma-dangle": "error",
         "indent": [
             "error",
             "tab"
