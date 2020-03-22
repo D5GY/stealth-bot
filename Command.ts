@@ -2,7 +2,7 @@ import Client from './util/Client';
 import { PermissionResolvable, User, TextChannel, DMChannel, GuildMember, Message } from 'discord.js';
 
 export default class Command {
-	private client!: Client;
+	public client!: Client;
 
 	public aliases: string[];
 	public cooldown: number;

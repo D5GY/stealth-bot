@@ -9,15 +9,20 @@ export default class BaseCommand extends Command {
 			name: 'base',
 			usage: 'base [...args]',
 			cooldown: 5, // 5 seconds
-			// dmAllowed: true,
+			dmAllowed: true,
 			enabled: true,
-			permissions: 'ADD_REACTIONS'
+			permissions: 0
 			// permissions: (user) => user.isCool()
 		});
 	}
 
 	run({ msg, regularArgs, args }: CommandExecutionData) {
+		console.log(args, regularArgs);
 		if (!args.length) return msg.channel.send('No args provided');
 		return msg.channel.send(`Your first argument is ${args[0]}, normalized ${regularArgs[0]}`);
 	}
 }
+
+/*
+can you set up a event format for me ;p so i can add some ye
+*/

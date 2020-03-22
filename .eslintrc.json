@@ -21,6 +21,8 @@
         "@typescript-eslint"
     ],
     "rules": {
+			"arrow-spacing": "warn",
+			"space-before-blocks": "warn",
 			"@typescript-eslint/ban-ts-ignore": "off",
 			"@typescript-eslint/no-non-null-assertion": "off",
 			"@typescript-eslint/explicit-function-return-type": "off",
