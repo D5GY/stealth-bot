@@ -22,7 +22,3 @@ export default class BaseCommand extends Command {
 		return msg.channel.send(`Your first argument is ${args[0]}, normalized ${regularArgs[0]}`);
 	}
 }
-
-/*
-can you set up a event format for me ;p so i can add some ye
-*/

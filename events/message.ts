@@ -1,15 +1,6 @@
 import { Message, MessageEmbed } from 'discord.js';
 import Client from '../util/Client';
 
-// use the same format used here,
-/*
-export default async (parameter: Omit<ParameterClass, 'client'> & { client: Client })) => {
-	const { client } = parameter;
-	...
-};
-make sure the `Client` import is the one from '../util/Client';
-// remove this comment as well once youve read it
-*/
 export default async (msg: Omit<Message, 'client'> & { client: Client }) => {
 
 	const { client } = msg;

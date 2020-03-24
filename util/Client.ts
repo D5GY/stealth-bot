@@ -14,6 +14,7 @@ export default class Client extends DJSClient {
 		staffRoleIDs: Snowflake[];
 		prefix: string;
 		devIDs: Snowflake[];
+		autorole: Snowflake;
 	};
 	public database: DatabaseManager;
 	public token: string;
@@ -30,7 +31,8 @@ export default class Client extends DJSClient {
 			webhooks: new Map(),
 			staffRoleIDs: config.roles.staff,
 			prefix: config.prefix,
-			devIDs: config.devs
+			devIDs: config.devs,
+			autorole: config.roles.auto
 		};
 
 		this.database = new DatabaseManager(this, config.database);

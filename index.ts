@@ -11,6 +11,6 @@ const client = new Client(config, {
 });
 
 client.login();
-client.on('ready', () => {
+client.once('ready', () => {
 	console.log(`${client.user!.tag} is online`);
 });
