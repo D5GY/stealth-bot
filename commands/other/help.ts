@@ -45,7 +45,7 @@ export default class HelpCommand extends Command {
 			.setColor(0x214896)
 			.setAuthor('phoenixlive.online', this.client.guilds.cache.first()!.iconURL({dynamic:true}) as string)
 			.setURL('https://phoenixlive.online')
-			.setDescription('Phoenix Live Help\n\n>link - Link your CPUKey\n>info - Display your console info')
+			.setDescription('Phoenix Live Help\n\n>link - Link your CPUKey\n>info - Display your console info\n>freemode - Check freemode status\n>name - Change your console display name')
 			.setFooter(`Command ran by: ${msg.author.tag}`, msg.author.displayAvatarURL({dynamic:true}))
 			.setTimestamp()
 		);
