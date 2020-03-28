@@ -11,7 +11,8 @@ export default class FreemodeCommand extends Command {
 			cooldown: 5,
 			dmAllowed: true,
 			enabled: true,
-			permissions: 0
+			permissions: 0,
+			channels: ['693225634675032155', '693225595680587887']
 		});
 	}
 

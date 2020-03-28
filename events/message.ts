@@ -1,16 +1,17 @@
-import { Message, MessageEmbed } from 'discord.js';
+import { Message, MessageEmbed, Permissions } from 'discord.js';
 import Client from '../util/Client';
+import Util from '../util/Util';
 
 export default async (msg: Omit<Message, 'client'> & { client: Client }) => {
-
 	const { client } = msg;
-	if (msg.author.bot || !msg.content.startsWith(client.config.prefix)) return;
+	if (msg.author.bot) return;
 
+	Util.spamCheck(msg).catch(console.error);
 	const invites = msg.content!.match(/discord(?:app\.com\/invite|\.gg(?:\/invite)?)\/([\w-]{2,255})/gi);
 
 	if (msg.guild && invites && invites.length) {
 		if (msg.member!.hasPermission('MANAGE_MESSAGES')) return;
-		await msg.delete();
+		if (!msg.deleted) await msg.delete();
 		await msg.reply('No sending invites within this guild.');
 		const channel = client.config.channels.get('logs')!;
 		return channel.send(new MessageEmbed()
@@ -37,6 +38,8 @@ export default async (msg: Omit<Message, 'client'> & { client: Client }) => {
 		);
 	}
 
+	if (!msg.content.startsWith(client.config.prefix)) return;
+
 	const [_commandName, ...args] = msg.content!.split(' ');
 
 	if (!_commandName) return;
@@ -49,10 +52,13 @@ export default async (msg: Omit<Message, 'client'> & { client: Client }) => {
 
 	if (!command.dmAllowed && msg.channel.type === 'dm') return;
 
+	if (msg.channel.type !== 'dm' && command.channels.length && !command.channels.includes(msg.channel.id) && !msg.member!.hasPermission(Permissions.FLAGS.MANAGE_MESSAGES)) {
+		return msg.delete();
+	}
+
 	let hasPermissions;
 	if (command.dmAllowed && command.permissions && typeof command.permissions !== 'function') {
-		console.warn('DM Only commands should have no permissions, or use a function');
-		return;
+		return console.warn('DM Only commands should have no permissions, or use a function');
 	}
 
 	if (typeof command.permissions === 'function') {
@@ -63,7 +69,10 @@ export default async (msg: Omit<Message, 'client'> & { client: Client }) => {
 	if (!hasPermissions) return msg.channel.send('You\'re not authorized to use this command');
 	await command.run({
 		msg: msg,
-		args: args.join(' ').toLowerCase().split(' ').slice(1), // remove first arg because its funky idk why
+		args: args.join(' ').toLowerCase().trim().split(' '),
 		regularArgs: args
+	}).catch(error => {
+		console.error(error);
+		return msg.channel.send(`An expected error occoured, \`${error.name}\`: \`\`\`js\n${error.message}\n\`\`\``);
 	});
 };

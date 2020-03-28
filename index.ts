@@ -7,7 +7,8 @@ const client = new Client(config, {
 			name: 'phoenixlive.online',
 			type: 'WATCHING'
 		}
-	}
+	},
+	partials: ['MESSAGE', 'REACTION']
 });
 
 client.login();

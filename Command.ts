@@ -1,5 +1,5 @@
 import Client from './util/Client';
-import { PermissionResolvable, User, TextChannel, DMChannel, GuildMember, Message } from 'discord.js';
+import { PermissionResolvable, User, TextChannel, DMChannel, GuildMember, Message, Snowflake } from 'discord.js';
 
 export default class Command {
 	public client!: Client;
@@ -12,6 +12,7 @@ export default class Command {
 	public usage: string;
 	public permissions: PermissionResolvable | PermissionsFunction;
 	public dmAllowed: boolean;
+	public channels: Snowflake[];
 
 	constructor(client: Client, config: CommandConfig) {
 		Object.defineProperty(this, 'client', { value: client });
@@ -24,6 +25,8 @@ export default class Command {
 		this.usage = config.usage;
 		this.permissions = config.permissions || 0;
 		this.dmAllowed = config.dmAllowed || false;
+
+		this.channels = config.channels || [];
 	}
 
 	run(data: CommandExecutionData) {
@@ -39,6 +42,7 @@ export interface CommandExecutionData {
 
 export interface CommandConfig {
 	aliases: string[];
+	channels?: Snowflake[];
 	cooldown?: number;
 	dmAllowed?: true;
 	enabled?: true;
@@ -48,4 +52,4 @@ export interface CommandConfig {
 	permissions: PermissionResolvable | PermissionsFunction;
 }
 
-type PermissionsFunction = ((member: Omit<GuildMember, 'client'> & { client: Client }, channel: TextChannel) => boolean | Promise<boolean>) | ((user: Omit<User, 'client'> & { client: Client }, channel: DMChannel) => boolean | Promise<boolean>)
+type PermissionsFunction = ((member: Omit<GuildMember | User, 'client'> & { client: Client }, channel: TextChannel | DMChannel) => boolean | Promise<boolean>)

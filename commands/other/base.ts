@@ -7,10 +7,10 @@ export default class BaseCommand extends Command {
 			aliases: [],
 			description: 'This is a test command',
 			name: 'base',
-			usage: 'base [...args]',
+			usage: '[...args]',
 			cooldown: 5, // 5 seconds
 			dmAllowed: true,
-			enabled: true,
+			// enabled: true,
 			permissions: 0
 			// permissions: (user) => user.isCool()
 		});
