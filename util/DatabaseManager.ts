@@ -26,7 +26,7 @@ export default class DatabaseManager {
 
 	query(sql: string, ...args: unknown[]) {
 		if (!this.connected) return Promise.reject(new Error('Database is not connected.'));
-		return new Promise<{ [key: string]: string | number }[]>((resolve, reject) => {
+		return new Promise<{ [key: string]: string | number | Date }[]>((resolve, reject) => {
 			try {
 				this.connection.query(sql, args, (error, results) => {
 					if (error) return reject(error);

@@ -53,7 +53,9 @@ export default async (msg: Omit<Message, 'client'> & { client: Client }) => {
 	if (!command.dmAllowed && msg.channel.type === 'dm') return;
 
 	if (msg.channel.type !== 'dm' && command.channels.length && !command.channels.includes(msg.channel.id) && !msg.member!.hasPermission(Permissions.FLAGS.MANAGE_MESSAGES)) {
-		return msg.delete();
+		const del = { timeout: 3000 };
+		await msg.delete();
+		return await msg.reply('This command can not be used within this channel.').then(m => m.delete(del));
 	}
 
 	let hasPermissions;

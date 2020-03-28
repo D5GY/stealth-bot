@@ -1,6 +1,7 @@
 import Command, { CommandExecutionData } from '../../Command';
 import Client from '../../util/Client';
 import { MessageEmbed } from 'discord.js';
+import { RawConsoleData } from '../../util/DatabaseStructures';
 
 export default class StatsCommand extends Command {
 	constructor(client: Client) {
@@ -20,7 +21,7 @@ export default class StatsCommand extends Command {
 	async run({ msg }: CommandExecutionData) {
 		const allClients = await this.client.database.query(
 			'SELECT * FROM guestmode'
-		);
+		) as unknown as RawConsoleData[];
 		const [{ freemode }] = await this.client.database.query(
 			'SELECT freemode FROM settings'
 		);
@@ -50,7 +51,7 @@ export default class StatsCommand extends Command {
 			}, {
 				inline: true,
 				name: 'Stealth Version',
-				value: '1.5.0'
+				value: '1.6.0'
 			}, {
 				inline: true,
 				name: 'Bot version',

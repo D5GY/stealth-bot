@@ -1,5 +1,6 @@
 import { Message as DJSMessage, Collection, Snowflake, User, GuildMember, SnowflakeUtil } from 'discord.js';
 import Client from './Client';
+import moment from 'moment';
 
 type Message = Omit<DJSMessage, 'client'> & { client: Client }
 const FLAGS_REGEX = /--([a-z]+)=("[^"]*"|[0-9a-z]*)/gi;
@@ -75,6 +76,30 @@ export default class Util {
 		if (by.id === member.guild.ownerID) return true;
 		const position = member.roles.highest.comparePositionTo(by.roles.highest);
 		return position < 0;
+	}
+
+	static elapsed(from: number, to: number) {
+
+		const dif = moment.duration(to - from);
+		const seconds = dif.seconds();
+		const minutes = dif.minutes();
+		const hours = dif.hours();
+		const days = dif.days();
+		const months = dif.months();
+		const years = dif.years();
+		/*
+		if (yr > 0) return `${yr}yr, ${mo}mo, ${day}d, ${hrs}h, ${min}m, ${sec}s`;
+		else if (mo > 0) return `${mo}mo, ${day}d, ${hrs}h, ${min}m, ${sec}s`;
+		else if (day > 0) return `${day}d, ${hrs}h, ${min}m, ${sec}s`;
+		else return `${hrs}h, ${min}m, ${sec}s`;*/
+		const time = [];
+		if (years) time.push(`${years}yr${years > 1 ? 's' : ''}`);
+		if (months) time.push(`${months}mnths${months > 1 ? 's' : ''}`);
+		if (days) time.push(`${days}d`);
+		if (hours) time.push(`${hours}hr${hours > 1 ? 's' : ''}`);
+		if (minutes) time.push(`${minutes}m`);
+		if (seconds) time.push(`${seconds}s`);
+		return time.join(', ');
 	}
 
 	static async spamCheck(msg: Message): Promise<void> {

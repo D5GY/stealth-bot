@@ -1,5 +1,6 @@
 import Command, { CommandExecutionData } from '../../Command';
 import Client from '../../util/Client';
+import { RawConsoleData } from '../../util/DatabaseStructures';
 
 export default class LinkCommand extends Command {
 	constructor(client: Client) {
@@ -19,9 +20,9 @@ export default class LinkCommand extends Command {
 	async run({ msg, args }: CommandExecutionData) {
 		await msg.delete();
 		const [existing] = await this.client.database.query(
-			'SELECT * FROM guestmode WHERE discord = ?',
+			'SELECT id FROM guestmode WHERE discord = ? LIMIT 1',
 			msg.author.id
-		);
+		) as unknown as [{ id: RawConsoleData['id'] }];
 
 		if (existing) return msg.channel.send('You\'re already linked!');
 		const cpu = (args[0] || '').toUpperCase();
@@ -32,9 +33,9 @@ export default class LinkCommand extends Command {
 		}
 
 		const [data] = await this.client.database.query(
-			'SELECT discord FROM guestmode WHERE CPUKey = ?',
+			'SELECT discord FROM guestmode WHERE CPUKey = ? LIMIT 1',
 			cpu
-		);
+		) as unknown as [{ discord: RawConsoleData['discord'] }];
 
 		if (!data) return msg.channel.send('You must have been on phoenix live to link your discord.');
 		if (data.discord !== '0') {
